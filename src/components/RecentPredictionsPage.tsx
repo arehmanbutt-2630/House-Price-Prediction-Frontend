@@ -1,25 +1,15 @@
 import { useState } from "react";
 import Hero from "./Hero";
+import { usePredictions } from "../hooks/usePredictions";
 
 const RecentPredictionsPage = () => {
     const PAGE_SIZE = 5;
 
-    const mockData = [
-        { id: 1, squareFootage: 1800, bedrooms: 3, predictedPrice: "$350,000" },
-        { id: 2, squareFootage: 2200, bedrooms: 4, predictedPrice: "$420,000" },
-        { id: 3, squareFootage: 2500, bedrooms: 5, predictedPrice: "$510,000" },
-        { id: 4, squareFootage: 1600, bedrooms: 2, predictedPrice: "$300,000" },
-        { id: 5, squareFootage: 2000, bedrooms: 3, predictedPrice: "$390,000" },
-        { id: 6, squareFootage: 1800, bedrooms: 3, predictedPrice: "$350,000" },
-        { id: 7, squareFootage: 2200, bedrooms: 4, predictedPrice: "$420,000" },
-        { id: 8, squareFootage: 2400, bedrooms: 5, predictedPrice: "$510,000" },
-        { id: 9, squareFootage: 1800, bedrooms: 2, predictedPrice: "$300,000" },
-        { id: 10, squareFootage: 2000, bedrooms: 3, predictedPrice: "$390,000" },
-    ];
+    const predictions = usePredictions();
 
     const [page, setPage] = useState(1);
-    const totalPages = Math.ceil(mockData.length / PAGE_SIZE);
-    const paginatedData = mockData.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+    const totalPages = Math.ceil(predictions.length / PAGE_SIZE);
+    const paginatedData = predictions.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
     return (
         <>
@@ -52,9 +42,9 @@ const RecentPredictionsPage = () => {
                                                 : "bg-gray-100 hover:bg-gray-100"
                                         }
                                     >
-                                        <td className="px-6 py-4 font-medium text-center">{row.squareFootage} sqft</td>
+                                        <td className="px-6 py-4 font-medium text-center">{row.square_footage} sqft</td>
                                         <td className="px-6 py-4 text-center">{row.bedrooms}</td>
-                                        <td className="px-6 py-4 text-orange-500 font-semibold text-center">{row.predictedPrice}</td>
+                                        <td className="px-6 py-4 text-orange-500 font-semibold text-center">${row.predicted_price.toLocaleString()}</td>
                                     </tr>
                                 ))}
                             </tbody>

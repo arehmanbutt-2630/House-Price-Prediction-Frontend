@@ -3,10 +3,22 @@ import * as Yup from 'yup';
 import { useState } from 'react';
 import Hero from './Hero';
 
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { addPrediction } from '../features/prediction/predictionSlice';
+
 interface FormValues {
   squareFootage: number | '';
   bedrooms: number | '';
 }
+
+interface PredictionResponse {
+  id: number;
+  square_footage: number;
+  bedrooms: number;
+  predicted_price: number;
+}
+
 
 const validationSchema = Yup.object({
   squareFootage: Yup.number()
@@ -20,6 +32,7 @@ const validationSchema = Yup.object({
 });
 
 const PricePredictionPage = () => {
+  const dispatch = useDispatch();
   const [predictedPrice, setPredictedPrice] = useState<string | null>(null);
 
   const initialValues: FormValues = {
@@ -27,14 +40,25 @@ const PricePredictionPage = () => {
     bedrooms: '',
   };
 
-  const handleSubmit = (values: FormValues) => {
-    console.log('Prediction Input:', values);
+  const handleSubmit = async (values: FormValues) => {
+  try {
+    const response = await axios.post<PredictionResponse>('http://127.0.0.1:8000/predictions/predict/', {
+      square_footage: values.squareFootage,
+      bedrooms: values.bedrooms,
+    });
 
-    setTimeout(() => {
-    const fakePrice = "425,000";
-    setPredictedPrice(fakePrice);
-  }, 1000);
-  };
+    const data = response.data;
+
+
+    setPredictedPrice(data.predicted_price.toLocaleString());
+
+    // Push to Redux state
+    dispatch(addPrediction(data));
+  } catch (error: any) {
+    console.error('Prediction API error:', error);
+    alert("Something went wrong while fetching the prediction.");
+  }
+};
 
   return (
     <>

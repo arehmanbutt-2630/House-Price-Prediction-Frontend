@@ -1,5 +1,8 @@
 import Hero from "./Hero"
 import Card from "./Card"
+import houseIcon from '../assets/house_icon.svg';
+import flashIcon from '../assets/flash_icon.svg';
+import historyIcon from '../assets/history_icon.svg';
 
 const LandingPage = () => {
   return (
@@ -17,17 +20,17 @@ const LandingPage = () => {
           <Card
             heading="Accurate Predictions"
             subHeading="Our advanced AI model provides highly accurate housing price predictions based on comprehensive market data."
-            icon="/house_icon.svg"
+            icon={houseIcon}
           />
           <Card
             heading="Instant Results"
             subHeading="Get your predictions instantly with our optimized algorithms. No waiting, no delays."
-            icon="/flash_icon.svg"
+            icon={flashIcon}
           />
           <Card
             heading="Track History"
             subHeading="Keep track of all your predictions and compare them with actual market values over time."
-            icon="/history_icon.svg"
+            icon={historyIcon}
           />
         </div>
       </div>
