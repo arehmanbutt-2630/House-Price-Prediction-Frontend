@@ -27,7 +27,7 @@ export const fetchPredictions = createAsyncThunk(
   "predictions/fetchPredictions",
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get<Prediction[]>("http://127.0.0.1:8000/predictions/");
+      const response = await axios.get<Prediction[]>(`${import.meta.env.VITE_BACKEND_BASE_URL}/predictions/`);
       return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message || "Failed to fetch predictions");

@@ -42,7 +42,7 @@ const PricePredictionPage = () => {
 
   const handleSubmit = async (values: FormValues) => {
   try {
-    const response = await axios.post<PredictionResponse>('http://127.0.0.1:8000/predictions/predict/', {
+    const response = await axios.post<PredictionResponse>(`${import.meta.env.VITE_BACKEND_BASE_URL}/predictions/predict/`, {
       square_footage: values.squareFootage,
       bedrooms: values.bedrooms,
     });
